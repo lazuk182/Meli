@@ -1,0 +1,13 @@
+CREATE DATABASE MercadoLibre
+GO
+USE MercadoLibre
+GO
+CREATE TABLE Usuarios(
+	Id INT PRIMARY KEY IDENTITY,
+	ClientId BIGINT NOT NULL,
+	ClientSecret VARCHAR(200) NOT NULL,
+	ServerCode VARCHAR(200) NOT NULL DEFAULT '',
+	AuthorizationCode VARCHAR(200) NOT NULL DEFAULT '',
+	RedirectUrl TEXT
+)
+GO
