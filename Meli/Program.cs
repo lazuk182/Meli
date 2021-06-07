@@ -22,7 +22,7 @@ namespace Meli
             MercadoLibreController MeliController;
             using (var _context = new Database.MercadoLibreEntities())
             {
-                usr = _context.Usuarios.FirstOrDefault(u => u.Id == 3);
+                usr = _context.Usuarios.FirstOrDefault(u => u.Id == 1);
                 if (usr.ServerCode == string.Empty)
                 {
                     var m = new MercadoLibre.SDK.MeliApiService
@@ -144,9 +144,10 @@ namespace Meli
                 output.Close();
                 if (Usr.ServerCode.Length > 0)
                 {
-                    break;
                     p.Close();
+                    break;
                 }
+                
             }
             listener.Stop();
         }
