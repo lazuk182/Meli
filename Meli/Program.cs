@@ -3,14 +3,11 @@ using MercadoLibre.SDK.Meta;
 using MercadoLibre.SDK;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace Meli
 {
@@ -34,61 +31,64 @@ namespace Meli
                     Server(usr, RedirectUrl);
                     MeliController = new MercadoLibreController(usr.ClientId,
                         usr.ClientSecret, usr.ServerCode, usr.RedirectUrl);
+                    Console.WriteLine("Se ha actualizado el Server Code o Toke: " + MeliController.ServerCode);
                 }
                 else
                 {
                     MeliController = new MercadoLibreController(usr.ClientId,
                         usr.ClientSecret, usr.ServerCode);
+                    Console.WriteLine("No fue modificado el token. Sólo se refrescó");
                 }
                 usr.ServerCode = MeliController.ServerCode;
                 _context.SaveChanges();
             }
-
-            DateTime Fecha = new DateTime(2019, 1, 1, 1, 1, 1);
-            ReportesController Reporte = new ReportesController(MeliController);
-            var Orders = Reporte.GetOrders(Fecha, "397953529");
-            foreach (var Order in Orders)
-            {
-                Console.WriteLine("OrderId => " + Order.JOBID);
-            }
-            Console.WriteLine("Total Orders gotten => " + Orders.Count);
-            string line = "FEORD|HORDE|JOBID|TIEND|NUMTI|DESPR|PRVPU|UNIVE|TASIM|MONVE|WAERK|REFPA|NOMEN|NOMCT|APECT|DIREC|DIRE1|SUBEN|EDOEN|PSTLZ|PAISE|MAILC|TELNU|MATNR|SHIPID|SALE_FEE|LIST_COST|STATUS";
-            using (StreamWriter sw = File.CreateText("list.csv"))
-            {
-                sw.WriteLine(line);
-                foreach (var orden in Orders)
-                {
-                    line = orden.FEORD + "|"
-                        + orden.HORDE + "|"
-                        + orden.JOBID + "|"
-                        + orden.TIEND + "|"
-                        + orden.NUMTI + "|"
-                        + orden.DESPR + "|"
-                        + orden.PRVPU + "|"
-                        + orden.UNIVE + "|"
-                        + orden.TASIM + "|"
-                        + orden.MONVE + "|"
-                        + orden.WAERK + "|"
-                        + orden.REFPA + "|"
-                        + orden.NOMEN + "|"
-                        + orden.NOMCT + "|"
-                        + orden.APECT + "|"
-                        + orden.DIREC + "|"
-                        + orden.DIRE1 + "|"
-                        + orden.SUBEN + "|"
-                        + orden.EDOEN + "|"
-                        + orden.PSTLZ + "|"
-                        + orden.PAISE + "|"
-                        + orden.MAILC + "|"
-                        + orden.TELNU + "|"
-                        + orden.MATNR + "|"
-                        + orden.SHIPID + "|"
-                        + orden.SALE_FEE + "|"
-                        + orden.LIST_COST + "|"
-                        + orden.STATUS;
-                    sw.WriteLine(line);
-                }
-            }
+            #region Ejemplo Reporte
+            //DateTime Fecha = new DateTime(2019, 1, 1, 1, 1, 1);
+            //ReportesController Reporte = new ReportesController(MeliController);
+            //var Orders = Reporte.GetOrders(Fecha, "397953529");
+            //foreach (var Order in Orders)
+            //{
+            //    Console.WriteLine("OrderId => " + Order.JOBID);
+            //}
+            //Console.WriteLine("Total Orders gotten => " + Orders.Count);
+            //string line = "FEORD|HORDE|JOBID|TIEND|NUMTI|DESPR|PRVPU|UNIVE|TASIM|MONVE|WAERK|REFPA|NOMEN|NOMCT|APECT|DIREC|DIRE1|SUBEN|EDOEN|PSTLZ|PAISE|MAILC|TELNU|MATNR|SHIPID|SALE_FEE|LIST_COST|STATUS";
+            //using (StreamWriter sw = File.CreateText("list.csv"))
+            //{
+            //    sw.WriteLine(line);
+            //    foreach (var orden in Orders)
+            //    {
+            //        line = orden.FEORD + "|"
+            //            + orden.HORDE + "|"
+            //            + orden.JOBID + "|"
+            //            + orden.TIEND + "|"
+            //            + orden.NUMTI + "|"
+            //            + orden.DESPR + "|"
+            //            + orden.PRVPU + "|"
+            //            + orden.UNIVE + "|"
+            //            + orden.TASIM + "|"
+            //            + orden.MONVE + "|"
+            //            + orden.WAERK + "|"
+            //            + orden.REFPA + "|"
+            //            + orden.NOMEN + "|"
+            //            + orden.NOMCT + "|"
+            //            + orden.APECT + "|"
+            //            + orden.DIREC + "|"
+            //            + orden.DIRE1 + "|"
+            //            + orden.SUBEN + "|"
+            //            + orden.EDOEN + "|"
+            //            + orden.PSTLZ + "|"
+            //            + orden.PAISE + "|"
+            //            + orden.MAILC + "|"
+            //            + orden.TELNU + "|"
+            //            + orden.MATNR + "|"
+            //            + orden.SHIPID + "|"
+            //            + orden.SALE_FEE + "|"
+            //            + orden.LIST_COST + "|"
+            //            + orden.STATUS;
+            //        sw.WriteLine(line);
+            //    }
+            //}
+            #endregion
             Console.ReadKey();
         }
         static void Server(Database.Usuarios Usr, string Url)
@@ -147,7 +147,6 @@ namespace Meli
                     p.Close();
                     break;
                 }
-                
             }
             listener.Stop();
         }
